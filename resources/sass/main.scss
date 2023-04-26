@@ -1,0 +1,42 @@
+// Default
+@import "../libs/normalize-8.0.1";
+@import "../sass/global/_fonts"; // шрифты
+@import "../sass/global/_variables"; // переменные
+@import "../sass/global/_mixins"; // миксины
+@import "../sass/global/_global"; // глобальные стили
+
+// Template
+@import "../sass/templates/button";
+@import "../sass/templates/form";
+@import "../sass/templates/page";
+@import "../sass/templates/header";
+@import "../sass/templates/footer";
+@import "../sass/templates/page";
+@import "../sass/templates/intro";
+@import "../sass/templates/authorization";
+@import "../sass/templates/login";
+@import "../sass/templates/post";
+@import "../sass/templates/post-photo";
+@import "../sass/templates/post-video";
+@import "../sass/templates/post-text";
+@import "../sass/templates/post-quote";
+@import "../sass/templates/post-link";
+@import "../sass/templates/filters";
+@import "../sass/templates/feed";
+@import "../sass/templates/promo";
+@import "../sass/templates/messages";
+@import "../sass/templates/comments";
+@import "../sass/templates/search";
+@import "../sass/templates/popular";
+@import "../sass/templates/sorting";
+@import "../sass/templates/post-details";
+@import "../sass/templates/user";
+@import "../sass/templates/profile";
+@import "../sass/templates/tabs";
+@import "../sass/templates/post-mini";
+@import "../sass/templates/registration";
+@import "../sass/templates/adding-post";
+@import "../sass/templates/modal";
+
+// Plugins
+/* @import "../libs/slider/slider" */
