@@ -1,72 +1,17 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>readme: регистрация</title>
-    <link rel="stylesheet" href="/public/css/main.css">
-  </head>
-  <body class="page">
-     <?php
-    require_once(__DIR__ . '/components/sprite.php');
-    ?>
+@extends('templates.template')
+@section('title', 'Readme: регистрация')
 
-    <header class="header">
-      <div class="header__wrapper container">
-        <div class="header__logo-wrapper">
-          <a class="header__logo-link" href="main.php">
-            <img class="header__logo" src="/resources/img/logo.svg" alt="Логотип readme" width="128" height="24">
-          </a>
-          <p class="header__topic">
-            micro blogging
-          </p>
-        </div>
-        <form class="header__search-form form" action="#" method="get">
-          <div class="header__search">
-            <label class="visually-hidden">Поиск</label>
-              <label>
-                  <input class="header__search-input form__input" type="search">
-              </label>
-              <button class="header__search-button button" type="submit">
-              <svg class="header__search-icon" width="18" height="18">
-                <use xlink:href="#icon-search"></use>
-              </svg>
-              <span class="visually-hidden">Начать поиск</span>
-            </button>
-          </div>
-        </form>
-        <div class="header__nav-wrapper">
-          <nav class="header__nav">
-            <ul class="header__my-nav">
-              <li class="header__my-page header__my-page--popular">
-                <a class="header__page-link" href="popular.php" title="Популярный контент">
-                  <span class="visually-hidden">Популярный контент</span>
-                </a>
-              </li>
-              <li class="header__my-page header__my-page--feed">
-                <a class="header__page-link" href="feed.php" title="Моя лента">
-                  <span class="visually-hidden">Моя лента</span>
-                </a>
-              </li>
-              <li class="header__my-page header__my-page--messages">
-                <a class="header__page-link" href="messages.php" title="Личные сообщения">
-                  <span class="visually-hidden">Личные сообщения</span>
-                </a>
-              </li>
-            </ul>
-            <ul class="header__user-nav">
-              <li class="header__authorization">
-                <a class="header__user-button header__authorization-button button" href="login.php">Вход</a>
-              </li>
-              <li>
-                <a class="header__user-button header__user-button--active header__register-button button">Регистрация</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
+@section('styles')
+    <link rel="stylesheet" href="/public/css/main.css">
+@endsection
+
+@section('scripts')
+    <script src="/resources/libs/dropzone.js"></script>
+    <script src="/resources/js/templates/dropzone-settings.js"></script>
+    <script src="/resources/js/main.js"></script>
+@endsection
+
+@section('content')
 
     <main class="page__main page__main--registration">
       <div class="container">
@@ -155,10 +100,4 @@
       </section>
     </main>
 
-    //= components/footer.html
-
-    <script src="/resources/libs/dropzone.js"></script>
-    <script src="/resources/js/templates/dropzone-settings.js"></script>
-    <script src="/resources/js/main.js"></script>
-  </body>
-</html>
+@endsection
