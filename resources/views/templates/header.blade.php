@@ -26,29 +26,30 @@ micro blogging
           <nav class="header__nav">
             <ul class="header__my-nav">
               <li class="header__my-page header__my-page--popular">
-                <a class="header__page-link" href="/resources/views/popular.php" title="Популярный контент">
+                <a class="header__page-link" href="/public/popular" title="Популярный контент">
                   <span class="visually-hidden">Популярный контент</span>
                 </a>
               </li>
               <li class="header__my-page header__my-page--feed">
-                <a class="header__page-link" href="/resources/views/feed.php" title="Моя лента">
+                <a class="header__page-link" href="/public/feed" title="Моя лента">
                   <span class="visually-hidden">Моя лента</span>
                 </a>
               </li>
               <li class="header__my-page header__my-page--messages">
-                <a class="header__page-link" href="/resources/views/messages.php" title="Личные сообщения">
+                <a class="header__page-link" href="/public/messages" title="Личные сообщения">
                   <span class="visually-hidden">Личные сообщения</span>
                 </a>
               </li>
             </ul>
+              @if(Auth::check())
             <ul class="header__user-nav">
               <li class="header__profile">
                 <a class="header__profile-link" href="#">
                   <div class="header__avatar-wrapper">
-                    <img class="header__profile-avatar" src="/resources/img/userpic.jpg" alt="Аватар профиля">
+                    <img class="header__profile-avatar" src="{{Auth::user()->avatar }}" alt="">
                   </div>
                   <div class="header__profile-name">
-                    <span>Антон Глуханько</span>
+                          <span>{{ Auth::user()->name }}</span>
                     <svg class="header__link-arrow" width="10" height="6">
                       <use xlink:href="#icon-arrow-right-ad"></use>
                     </svg>
@@ -58,14 +59,14 @@ micro blogging
                   <div class="header__profile-tooltip">
                     <ul class="header__profile-nav">
                       <li class="header__profile-nav-item">
-                        <a class="header__profile-nav-link" href="#">
+                        <a class="header__profile-nav-link" href="/public/profile">
                           <span class="header__profile-nav-text">
 Мой профиль
 </span>
                         </a>
                       </li>
                       <li class="header__profile-nav-item">
-                        <a class="header__profile-nav-link" href="#">
+                        <a class="header__profile-nav-link" href="/public/messages">
                           <span class="header__profile-nav-text">
 Сообщения
                             <i class="header__profile-indicator">2</i>
@@ -80,7 +81,7 @@ micro blogging
                         </a>
                       </li>
                       <li class="header__profile-nav-item">
-                        <a class="header__profile-nav-link" href="#">
+                        <a class="header__profile-nav-link" href="{{ route('logout') }}">
                           <span class="header__profile-nav-text">
 Выход
                           </span>
@@ -91,8 +92,11 @@ micro blogging
                 </div>
               </li>
               <li>
-                <a class="header__post-button header__post-button--active button button--transparent" href="#">Закрыть</a>
+                  @elseif(!Auth::check())
+                  <a class="header__post-button header__post-button--active button button--transparent" href="/public/login">Войти</a>
+                  <a class="header__post-button header__post-button--active button button--transparent" href="/public/registration">Регистрация</a>
               </li>
+                @endif
             </ul>
           </nav>
         </div>

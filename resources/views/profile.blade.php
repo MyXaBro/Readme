@@ -18,11 +18,13 @@
           <div class="profile__user user container">
             <div class="profile__user-info user__info">
               <div class="profile__avatar user__avatar">
-                <img class="profile__picture user__picture" src="/resources/img/userpic-medium.jpg" alt="Аватар пользователя">
+                <img class="profile__picture user__picture" src="{{Auth::user()->avatar }}" alt="">
               </div>
               <div class="profile__name-wrapper user__name-wrapper">
-                <span class="profile__name user__name">Антон<br> Глуханько</span>
-                <time class="profile__user-time user__time" datetime="2014-03-20">5 лет на сайте</time>
+                  @if(Auth::check())
+                  <span class="profile__name user__name">{{ Auth::user()->name }}<br> </span>
+                <time class="profile__user-time user__time"> {{ $registeredFor }} на сайте</time>
+                  @endif
               </div>
             </div>
             <div class="profile__rating user__rating">

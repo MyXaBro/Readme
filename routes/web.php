@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,14 +64,16 @@ Route::get('/post-details', function () {
     return view('post-details');
 });
 
-Route::get('/profile', function () {
-    return view('profile');
-});
+Route::get('/profile', [ProfileController::class, 'profile']);
 
 Route::get('/reg-validation', function () {
     return view('reg-validation');
 });
 
-Route::get('/registration', function () {
-    return view('registration');
-});
+Route::get('/registration', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/registration', [RegisterController::class, 'store'])->middleware('guest');
+
+Route::get('/login', [LoginController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+

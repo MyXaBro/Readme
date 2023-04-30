@@ -12,7 +12,7 @@
         <a href="/public/main">Главная</a>
       </li>
       <li>
-        <a href="/public/login">Вход</a>
+        <a href="{{route('login')}}">Вход</a>
       </li>
       <li>
         <a href="/public/feed">Моя лента</a>

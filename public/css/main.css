@@ -750,6 +750,10 @@ img {
   transition: font-size 0.3s, margin 0.3s;
 }
 
+.form__error-label--login{
+
+}
+
 .form__input-icon {
   position: absolute;
   z-index: 1;
