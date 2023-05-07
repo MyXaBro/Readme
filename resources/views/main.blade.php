@@ -5,10 +5,6 @@
     <link rel="stylesheet" href="/public/css/main.css">
 @endsection
 
-@section('scripts')
-    <script src="/public/js/main.js"></script>
-@endsection
-
 @section('content')
   <main>
       <h1 class="visually-hidden">Главная страница сайта по созданию микроблога readme</h1>
@@ -30,7 +26,10 @@
           </ul>
         </section>
           @include('components.authorization')
+          @if($errors->has('email') || $errors->has('password'))
+              @include('components/login-validation')
+              @endif
       </div>
     </main>
-
+  <script src="/public/js/main.js"></script>
 @endsection

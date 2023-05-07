@@ -18,7 +18,7 @@
         <div class="search__query-wrapper">
           <div class="search__query container">
             <span>Вы искали:</span>
-            <span class="search__query-text">#photooftheday</span>
+            <span class="search__query-text">{{$query}}</span>
           </div>
         </div>
         <div class="search__results-wrapper">
@@ -28,8 +28,8 @@
               Попробуйте изменить поисковый запрос или просто зайти в раздел &laquo;Популярное&raquo;, там живет самый крутой контент.
             </p>
             <div class="search__links">
-              <a class="search__popular-link button button--main" href="#">Популярное</a>
-              <a class="search__back-link" href="#">Вернуться назад</a>
+              <a class="search__popular-link button button--main" href="/public/popular">Популярное</a>
+                <a class="search__back-link" href="{{ URL::previous() }}">Вернуться назад</a>
             </div>
           </div>
         </div>

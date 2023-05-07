@@ -5,10 +5,6 @@
     <link rel="stylesheet" href="/public/css/main.css">
 @endsection
 
-@section('scripts')
-    <script src="/public/js/main.js"></script>
-@endsection
-
 @section('content')
 
     <main class="page__main page__main--login">
@@ -63,4 +59,5 @@
             {!! Form::close() !!}
         </section>
     </main>
+    <script src="/public/js/main.js"></script>
 @endsection

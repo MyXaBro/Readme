@@ -14,9 +14,9 @@
 
             <label class="visually-hidden">Email</label>
         </div>
-        @error('email')
-        <span class="form__error-label form__error-label--login">{{$message}}</span>
-        @enderror
+
+        <span class="form__error-label form__error-label--login"></span>
+
     </div>
     <div class="authorization__input-wrapper form__input-wrapper">
         <div class="form__input-section">

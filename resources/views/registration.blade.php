@@ -5,14 +5,10 @@
     <link rel="stylesheet" href="/public/css/main.css">
 @endsection
 
-@section('scripts')
-    <script src="/resources/libs/dropzone.js"></script>
-    <script src="/resources/js/templates/dropzone-settings.js"></script>
-    <script src="/resources/js/main.js"></script>
-@endsection
-
 @section('content')
-
+    @if($errors->any())
+        @include('reg-validation')
+    @else
     <main class="page__main page__main--registration">
         <div class="container">
             <h1 class="page__title page__title--registration">Регистрация</h1>
@@ -20,7 +16,7 @@
         <section class="registration container">
             <h2 class="visually-hidden">Форма регистрации</h2>
 
-            {!! Form::open(['route' => 'register']) !!}
+            {!! Form::open(['route' => 'register', 'enctype' => 'multipart/form-data']) !!}
             <div class="form__text-inputs-wrapper">
                 <div class="form__text-inputs">
                     <div class="registration__input-wrapper form__input-wrapper">
@@ -29,12 +25,10 @@
                         <div class="form__input-section">
                             {!! Form::email('email', null, ['class' => 'registration__input form__input form__input--error', 'placeholder' => 'Укажите эл.почту']) !!}
                             <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об ошибке</span></button>
-                           @error('email')
                             <div class="form__error-text">
                                 <h3 class="form__error-title">Исправьте ошибки</h3>
-                                <p class="form__error-desc">{{$message}}</p>
+                                <p class="form__error-desc"></p>
                             </div>
-                            @enderror
                         </div>
                     </div>
                     <div class="registration__input-wrapper form__input-wrapper">
@@ -93,8 +87,7 @@
             <div class="registration__input-file-container form__input-container form__input-container--file">
                 <div class="registration__input-file-wrapper form__input-file-wrapper">
                     <div class="registration__file-zone form__file-zone dropzone">
-                        <input class="registration__input-file form__input-file" id="userpic-file" type="file"
-                               name="userpic-file" title=" ">
+                        {!! Form::file('avatar', ['class' => 'registration__input-file form__input-file', 'name' => 'avatar']) !!}
                         <div class="form__file-zone-text">
                             <span>Перетащите фото сюда</span>
                         </div>
@@ -115,4 +108,8 @@
         </section>
     </main>
 
+    <script src="/public/libs/dropzone.js"></script>
+    <script src="/public/js/templates/dropzone-settings.js"></script>
+    <script src="/public/js/main.js"></script>
+    @endif
 @endsection

@@ -8,11 +8,11 @@
 micro blogging
 </p>
         </div>
-        <form class="header__search-form form" action="#" method="get">
+        <form class="header__search-form form" action="{{ route('search.index') }}" method="get">
           <div class="header__search">
             <label class="visually-hidden">Поиск</label>
               <label>
-                  <input class="header__search-input form__input" type="search">
+                  <input class="header__search-input form__input" type="search" name="query" value="{{ old('query') }}">
               </label>
               <button class="header__search-button button" type="submit">
               <svg class="header__search-icon" width="18" height="18">
@@ -41,7 +41,8 @@ micro blogging
                 </a>
               </li>
             </ul>
-              @if(Auth::check())
+          @if(Auth::check())
+                  <a class="header__post-button header__post-button--active button button--transparent" href="/public/adding-post">Добавить пост</a>
             <ul class="header__user-nav">
               <li class="header__profile">
                 <a class="header__profile-link" href="#">
@@ -59,7 +60,7 @@ micro blogging
                   <div class="header__profile-tooltip">
                     <ul class="header__profile-nav">
                       <li class="header__profile-nav-item">
-                        <a class="header__profile-nav-link" href="/public/profile">
+                          <a class="header__profile-nav-link" href="/public/profile/{{ Auth::user()->id }}">
                           <span class="header__profile-nav-text">
 Мой профиль
 </span>
@@ -69,7 +70,8 @@ micro blogging
                         <a class="header__profile-nav-link" href="/public/messages">
                           <span class="header__profile-nav-text">
 Сообщения
-                            <i class="header__profile-indicator">2</i>
+
+                            <i class="header__profile-indicator"> </i>
                           </span>
                         </a>
                       </li>
@@ -97,6 +99,7 @@ micro blogging
                   <a class="header__post-button header__post-button--active button button--transparent" href="/public/registration">Регистрация</a>
               </li>
                 @endif
+
             </ul>
           </nav>
         </div>

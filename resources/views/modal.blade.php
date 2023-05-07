@@ -5,12 +5,6 @@
     <link rel="stylesheet" href="/public/css/main.css">
 @endsection
 
-@section('scripts')
-    <script src="/resources/libs/dropzone.js"></script>
-    <script src="/resources/js/templates/dropzone-settings.js"></script>
-    <script src="/public/js/main.js"></script>
-@endsection
-
 @section('content')
 
 <main class="page__main page__main--adding-post">
@@ -281,24 +275,114 @@
     </main>
 @endsection
 
-<!--
-    <div class="modal modal--adding modal--active">
-      <div class="modal__wrapper">
-        <button class="modal__close-button button" type="button">
-          <svg class="modal__close-icon" width="18" height="18">
-            <use xlink:href="#icon-close"></use>
-          </svg>
-          <span class="visually-hidden">Закрыть модальное окно</span></button>
-        <div class="modal__content">
-          <h1 class="modal__title">Пост добавлен</h1>
-          <p class="modal__desc">
-            Озеро Байкал – огромное древнее озеро в горах Сибири к северу от монгольской границы. Байкал считается самым глубоким озером в мире. Он окружен сефтью пешеходных маршрутов, называемых Большой байкальской тропой. Деревня Листвянка, расположенная на западном берегу озера, – популярная отправная точка для летних экскурсий.
-          </p>
-          <div class="modal__buttons">
-            <a class="modal__button button button--main" href="#">Синяя кнопка</a>
-            <a class="modal__button button button--gray" href="#">Серая кнопка</a>
-          </div>
-        </div>
-      </div>
-    </div>
+@section('scripts')
+    <script src="/public/js/main.js"></script>
+    <script src="/public/libs/dropzone.js"></script>
+    <script src="/public/js/templates/dropzone-settings.js"></script>
+    <script src="/public/js/templates/sorting.js"></script>
+    <script src="/public/js/templates/tabs.js"></script>
+    <script src="/public/js/templates/util.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            'use script';
 
+            (function () {
+                var activeModal = document.querySelector('.modal--active');
+                var modal = document.querySelector('.modal');
+                var modalAdding = document.querySelector('.modal--adding');
+                var addingPostSubmit = document.querySelector('.adding-post__submit');
+                var scrollbarWidth = window.util.getScrollbarWidth() + 'px';
+                var pageMainSection = document.querySelector('.page__main-section');
+                var footerWrapper = document.querySelector('.footer__wrapper');
+
+                var showModal = function (openButton, modal) {
+                    var closeButton = modal.querySelector('.modal__close-button');
+
+                    var onPopupEscPress = function (evt) {
+                        window.util.isEscEvent(evt, closeModal);
+                    };
+
+                    var closeModal = function (evt) {
+                        modal.classList.remove('modal--active');
+                        activeModal = false;
+                        document.removeEventListener('keydown', onPopupEscPress);
+                        document.documentElement.style.overflowY = 'auto';
+                        pageMainSection.style.paddingRight = '0';
+                        footerWrapper.style.paddingRight = '0';
+                    }
+
+                    var openModal = function (evt) {
+                        if (activeModal) {
+                            activeModal.classList.remove('modal--active');
+                        }
+
+                        modal.classList.add('modal--active');
+                        activeModal = modal;
+                        document.documentElement.style.overflowY = 'hidden';
+                        pageMainSection.style.paddingRight = scrollbarWidth;
+                        footerWrapper.style.paddingRight = scrollbarWidth;
+                        closeButton.focus();
+
+                        closeButton.addEventListener('click', function (evt) {
+                            evt.preventDefault();
+                            closeModal();
+                        });
+
+                        modal.addEventListener('click', function (evt) {
+                            if (evt.target === modal) {
+                                closeModal();
+                            }
+                        })
+
+                        document.addEventListener('keydown', onPopupEscPress);
+                    }
+
+                    openButton.addEventListener('click', function (evt) {
+                        openModal();
+                    });
+                }
+
+                if (modal) {
+                    showModal(addingPostSubmit, modalAdding);
+                }
+            })();
+
+        });
+    </script>
+    <script>
+        $(function () {
+            // Обработка отправки формы при помощи AJAX
+            $('.add-photo-form, .add-video-form, .add-text-form, .add-quote-form, .add-link-form').on('submit', function (event) {
+                event.preventDefault();
+
+                var form = $(this);
+                var url = form.attr('action');
+                var method = form.attr('method');
+                var data = new FormData(form[0]);
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        // Обработка успешного ответа сервера
+                        if (response.success) {
+                            var post = response.post;
+
+                            // Обновление содержимого страницы
+                            // TODO: Реализовать обновление содержимого страницы
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибки сервера
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+@endsection

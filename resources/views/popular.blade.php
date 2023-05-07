@@ -5,10 +5,6 @@
     <link rel="stylesheet" href="/public/css/main.css">
 @endsection
 
-@section('scripts')
-    <script src="/public/js/main.js"></script>
-@endsection
-
 @section('content')
 
     <section class="page__main page__main--popular">
@@ -414,4 +410,7 @@
       </div>
     </section>
 
+    <script src="/public/js/main.js"></script>
+    <script src="/public/js/templates/sorting.js"></script>
+    <script src="/public/js/templates/filters.js"></script>
 @endsection

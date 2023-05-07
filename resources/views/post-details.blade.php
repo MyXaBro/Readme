@@ -11,140 +11,161 @@
 
 @section('content')
     <main class="page__main page__main--publication">
-      <div class="container">
-        <h1 class="page__title page__title--publication">Наконец, обработала фотки!</h1>
-        <section class="post-details">
-          <h2 class="visually-hidden">Публикация</h2>
-          <div class="post-details__wrapper post-photo">
-            <div class="post-details__main-block post post--details">
-              <div class="post-details__image-wrapper post-photo__image-wrapper">
-                <img src="/resources/img/rock-default.jpg" alt="Фото от пользователя" width="760" height="507">
-              </div>
-              <div class="post__indicators">
-                <div class="post__buttons">
-                  <a class="post__indicator post__indicator--likes button" href="#" title="Лайк">
-                    <svg class="post__indicator-icon" width="20" height="17">
-                      <use xlink:href="#icon-heart"></use>
-                    </svg>
-                    <svg class="post__indicator-icon post__indicator-icon--like-active" width="20" height="17">
-                      <use xlink:href="#icon-heart-active"></use>
-                    </svg>
-                    <span>250</span>
-                    <span class="visually-hidden">количество лайков</span>
-                  </a>
-                  <a class="post__indicator post__indicator--comments button" href="#" title="Комментарии">
-                    <svg class="post__indicator-icon" width="19" height="17">
-                      <use xlink:href="#icon-comment"></use>
-                    </svg>
-                    <span>25</span>
-                    <span class="visually-hidden">количество комментариев</span>
-                  </a>
-                  <a class="post__indicator post__indicator--repost button" href="#" title="Репост">
-                    <svg class="post__indicator-icon" width="19" height="17">
-                      <use xlink:href="#icon-repost"></use>
-                    </svg>
-                    <span>5</span>
-                    <span class="visually-hidden">количество репостов</span>
-                  </a>
-                </div>
-                <span class="post__view">500 просмотров</span>
-              </div>
-              <div class="comments">
-                <form class="comments__form form" action="#" method="post">
-                  <div class="comments__my-avatar">
-                    <img class="comments__picture" src="/resources/img/userpic.jpg" alt="Аватар пользователя">
-                  </div>
-                  <div class="form__input-section form__input-section--error">
-                      <label>
-                        <textarea class="comments__textarea form__textarea form__input"
-                            placeholder="Ваш комментарий"></textarea>
-                      </label>
-                      <label class="visually-hidden">Ваш комментарий</label>
-                    <button class="form__error-button button" type="button">!</button>
-                    <div class="form__error-text">
-                      <h3 class="form__error-title">Ошибка валидации</h3>
-                      <p class="form__error-desc">Это поле обязательно к заполнению</p>
+        <div class="container">
+            <h1 class="page__title page__title--publication">{{ $post->title }}</h1>
+            <section class="post-details">
+                <h2 class="visually-hidden">Публикация</h2>
+                <div class="post-details__wrapper post-photo">
+                    <div class="post-details__main-block post post--details">
+                        @if(isset($post->image))
+                            <div class="post-details__image-wrapper post-photo__image-wrapper">
+                                <img src="{{$post->image}}" alt="" width="760" height="507">
+                            </div>
+                        @endif
+                            @if(isset($post->video))
+                                <div class="post-video post-video__block">
+                                    <iframe width="100%" height="280px" src="{{$post->video}}" frameborder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                            @endif
+                        @if(isset($post->content))
+                            <div class="post__main">
+                                <p>{{$post->content}}</p>
+                            </div>
+                        @endif
+                        @if(isset($post->quote_author))
+                            <div class="post__author post__author-link post-text__more-link">
+                                {{$post->quote_author}}
+                            </div>
+                        @endif
+                        @if(isset($post->link))
+                            <div class="post-text__more-link">
+                                {{$post->link}}
+                            </div>
+                        @endif
+                        @if(isset($post->hashtag_id))
+                            <div class="post__tags">
+                                @foreach($hashtags as $hashtag)
+                                    <li>{{ $hashtag->name }}</li>
+                                @endforeach
+                            </div>
+                        @endif
+                        <div class="post__indicators">
+                            <div class="post__buttons">
+
+                                <form method="POST" action="{{ route('likes.store', ['post_id' => $post->id]) }}">
+                                    @csrf
+                                    <button type="submit" class="post__indicator post__indicator--likes button" title="Лайк">
+                                    <svg class="post__indicator-icon" width="20" height="17">
+                                        <use xlink:href="#icon-heart"></use>
+                                    </svg>
+                                    <svg class="post__indicator-icon post__indicator-icon--like-active" width="20"
+                                         height="17">
+                                        <use xlink:href="#icon-heart-active"></use>
+                                    </svg>
+                                    <span>{{ $post->likes->count() }}</span>
+                                    <span class="visually-hidden">количество лайков</span>
+                                    </button>
+                                </form>
+                                <a class="post__indicator post__indicator--comments button" href="{{ route('comments.show', ['postId' => $post->id]) }}"
+                                   title="Комментарии">
+                                    <svg class="post__indicator-icon" width="19" height="17">
+                                        <use xlink:href="#icon-comment"></use>
+                                    </svg>
+                                    <span>{{ $post->comments->count() }}</span>
+                                    <span class="visually-hidden">количество комментариев</span>
+                                </a>
+                                <a class="post__indicator post__indicator--repost button" href="{{ route('post.repost', $post) }}" title="Репост">
+                                    <svg class="post__indicator-icon" width="19" height="17">
+                                        <use xlink:href="#icon-repost"></use>
+                                    </svg>
+                                    @if(isset($post->reposts_count))
+                                    <span>{{ $post->reposts_count }}</span>
+                                    <span class="visually-hidden">количество репостов</span>
+                                        @endif
+                                </a>
+                            </div>
+                            <span class="post__view" id="post-views">{{ $post->views }}</span>
+                        </div>
+                        <div class="comments">
+                            @include('components.add-comments')
+                            @include('comments')
+                        </div>
                     </div>
-                  </div>
-                  <button class="comments__submit button button--green" type="submit">Отправить</button>
-                </form>
-                <div class="comments__list-wrapper">
-                  <ul class="comments__list">
-                    <li class="comments__item user">
-                      <div class="comments__avatar">
-                        <a class="user__avatar-link" href="#">
-                          <img class="comments__picture" src="/resources/img/userpic-larisa.jpg" alt="Аватар пользователя">
-                        </a>
-                      </div>
-                      <div class="comments__info">
-                        <div class="comments__name-wrapper">
-                          <a class="comments__user-name" href="#">
-                            <span>Лариса Роговая</span>
-                          </a>
-                          <time class="comments__time" datetime="2019-03-20">1 ч назад</time>
+                    <div class="post-details__user user">
+                        <div class="post-details__user-info user__info">
+                            <div class="post-details__avatar user__avatar">
+                                <a class="post-details__avatar-link user__avatar-link" href="/public/profile/{{$user->id}}">
+                                    <img class="post-details__picture user__picture" src="{{$user->avatar}}" alt="">
+                                </a>
+                            </div>
+                            <div class="post-details__name-wrapper user__name-wrapper">
+                                <a class="post-details__name user__name" href="/public/profile/{{$user->id}}">
+                                    <span>{{$user->name}}</span>
+                                </a>
+                                <time class="post-details__time user__time">на сайте
+                                    с {{ $user->created_at->format('d.m.Y') }}</time>
+                            </div>
                         </div>
-                        <p class="comments__text">
-                          Красота!!!1!
-                        </p>
-                      </div>
-                    </li>
-                    <li class="comments__item user">
-                      <div class="comments__avatar">
-                        <a class="user__avatar-link" href="#">
-                          <img class="comments__picture" src="/resources/img/userpic-larisa.jpg" alt="Аватар пользователя">
-                        </a>
-                      </div>
-                      <div class="comments__info">
-                        <div class="comments__name-wrapper">
-                          <a class="comments__user-name" href="#">
-                            <span>Лариса Роговая</span>
-                          </a>
-                          <time class="comments__time" datetime="2019-03-18">2 дня назад</time>
+                        <div class="post-details__rating user__rating">
+                            <p class="post-details__rating-item user__rating-item user__rating-item--subscribers">
+                                <span class="post-details__rating-amount user__rating-amount">{{$user->subscriptions->count()}}</span>
+                                <span class="post-details__rating-text user__rating-text">подписчиков</span>
+                            </p>
+                            <p class="post-details__rating-item user__rating-item user__rating-item--publications">
+                                <span class="post-details__rating-amount user__rating-amount">{{$postCount}}</span>
+                                <span class="post-details__rating-text user__rating-text">публикации</span>
+                            </p>
                         </div>
-                        <p class="comments__text">
-                          Озеро Байкал – огромное древнее озеро в горах Сибири к северу от монгольской границы. Байкал считается самым глубоким озером в мире. Он окружен сетью пешеходных маршрутов, называемых Большой байкальской тропой. Деревня Листвянка, расположенная на западном берегу озера, – популярная отправная точка для летних экскурсий. Зимой здесь можно кататься на коньках и собачьих упряжках.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                  <a class="comments__more-link" href="#">
-                    <span>Показать все комментарии</span>
-                    <sup class="comments__amount">45</sup>
-                  </a>
+                        <div class="post-details__user-buttons user__buttons">
+                            @auth
+                                @if ($user->id !== auth()->user()->id)
+                                    @php
+                                        $subscribed = false;
+                                        $subscription = auth()->user()->subscriptions()->where('subscribed_to_id', $user->id)->first();
+                                        if ($subscription) {
+                                            $subscribed = true;
+                                        }
+                                    @endphp
+                                    <form id="subscribe-form" action="{{ route('subscribe', $user->id) }}" method="post">
+                                        <div class="profile__user-buttons user__buttons">
+                                            @csrf
+                                            @if ($subscribed)
+                                                @method('DELETE')
+                                                <button class="profile__user-button user__button user__button--subscription button button--main"
+                                                        type="submit">Отписаться
+                                                </button>
+                                            @else
+                                                <button class="profile__user-button user__button user__button--subscription button button--main"
+                                                        type="submit">Подписаться
+                                                </button>
+                                            @endif
+                                            <a class="profile__user-button user__button user__button--writing button button--green"
+                                               href="{{ route('messages')}}">Сообщение</a>
+                                        </div>
+                                    </form>
+
+                                @endif
+                            @else
+                                <button type="submit"
+                                        class="profile__user-button user__button user__button--subscription button button--main">
+                                    Подписаться
+                                </button>
+                                <a class="profile__user-button user__button user__button--writing button button--green"
+                                   href="{{ route('messages')}}">Сообщение</a>
+                            @endauth
+
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="post-details__user user">
-              <div class="post-details__user-info user__info">
-                <div class="post-details__avatar user__avatar">
-                  <a class="post-details__avatar-link user__avatar-link" href="#">
-                    <img class="post-details__picture user__picture" src="/resources/img/userpic-elvira.jpg" alt="Аватар пользователя">
-                  </a>
-                </div>
-                <div class="post-details__name-wrapper user__name-wrapper">
-                  <a class="post-details__name user__name" href="#">
-                    <span>Эльвира Хайпулинова</span>
-                  </a>
-                  <time class="post-details__time user__time" datetime="2014-03-20">5 лет на сайте</time>
-                </div>
-              </div>
-              <div class="post-details__rating user__rating">
-                <p class="post-details__rating-item user__rating-item user__rating-item--subscribers">
-                  <span class="post-details__rating-amount user__rating-amount">1856</span>
-                  <span class="post-details__rating-text user__rating-text">подписчиков</span>
-                </p>
-                <p class="post-details__rating-item user__rating-item user__rating-item--publications">
-                  <span class="post-details__rating-amount user__rating-amount">556</span>
-                  <span class="post-details__rating-text user__rating-text">публикаций</span>
-                </p>
-              </div>
-              <div class="post-details__user-buttons user__buttons">
-                <button class="user__button user__button--subscription button button--main" type="button">Подписаться</button>
-                <a class="user__button user__button--writing button button--green" href="#">Сообщение</a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+            </section>
+        </div>
     </main>
+
+    <script src="/public/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src= "/public/js/templates/view_ajax.js"></script>
+    <script src ="/public/js/templates/youtube.js"></script>
+
 @endsection
