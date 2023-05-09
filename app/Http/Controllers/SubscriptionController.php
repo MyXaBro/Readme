@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Notification;
+
 
 class SubscriptionController extends Controller
 {
@@ -18,17 +22,32 @@ class SubscriptionController extends Controller
     {
         $subscription = Subscription::where('user_id', auth()->user()->id)
             ->where('subscribed_to_id', $id)->first();
+
+
+
         if ($subscription) {
             $subscription->delete();
             return redirect()->back()->with('success', 'Вы успешно отписались от пользователя!');
         } else {
-            //здесь я бессилен
             $subscription = new Subscription();
             $subscription->user_id = auth()->user()->id;
             $subscription->subscribed_to_id = $id;
             $subscription->save();
+
+            //Отправка уведомления о подписке
+            $subscribedUser = User::findOrFail($id);
+            Mail::send('components.notification', [
+                'recipient' => $subscribedUser,
+                'subscriber' => auth()->user(),
+            ], function ($message) use ($subscribedUser) {
+                $message->to($subscribedUser->email);
+                $message->subject('У вас новый подписчик');
+            });
+
             return redirect()->back()->with('success', 'Вы успешно подписались на пользователя!')->with('subscribed', true);
+
         }
+
     }
 
     /**

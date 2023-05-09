@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
 use App\Http\Requests\QuoteRequest;
+use App\Mail\PostNotification;
+use App\Models\Hashtag;
+use App\Models\Post;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
+
 class AddLinkController extends Controller
 {
     /**
@@ -28,12 +33,39 @@ class AddLinkController extends Controller
         $post = auth()->user()->posts()->create([
             'title' => $request->title,
             'link' => $request->link,
-            'hashtags' => $request->hashtags,
             'content_type_id' => 5
         ]);
 
         $post->save();
 
-        return redirect('/post-details/' . $post->id);
+        //Добавление хэштегов
+        $hashtags = explode(' ', $request->hashtags);
+        foreach ($hashtags as $hashtag) {
+            if (!empty($hashtag)) {
+                $hashtagModel = Hashtag::firstOrCreate(['name' => $hashtag]);
+                $post->hashtags()->attach($hashtagModel->id);
+            }
+        }
+
+        // Отправляем уведомление каждому подписчику
+        $this->notifyFollowers($post);
+
+        return redirect('/post-details/' . $post->id)->with('openModal', true);
+    }
+
+    /**
+     * Метод реализует отправку уведомлений всем подписчикам
+     * @param Post $post
+     * @return void
+     */
+    public function notifyFollowers(Post $post): void
+    {
+        $author = $post->user;
+
+        $followers = $author->subscribers()->get();
+
+        foreach ($followers as $subscriber) {
+            Mail::to($subscriber->email)->send(new PostNotification($author, $subscriber, $post));
+        }
     }
 }

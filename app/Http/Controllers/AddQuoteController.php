@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuoteRequest;
 use App\Http\Requests\TextRequest;
+use App\Mail\PostNotification;
+use App\Models\Hashtag;
+use App\Models\Post;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 use League\CommonMark\Extension\SmartPunct\Quote;
 
 class AddQuoteController extends Controller
@@ -31,12 +35,34 @@ class AddQuoteController extends Controller
             'title' => $request->title,
             'content' => $request->input('content', ''),
             'quote_author' => $request->quote_author,
-            'hashtags' => $request->hashtags,
             'content_type_id' => 4
         ]);
 
         $post->save();
 
+        //Добавление хэштегов
+        $hashtags = explode(' ', $request->hashtags);
+        foreach ($hashtags as $hashtag) {
+            if (!empty($hashtag)) {
+                $hashtagModel = Hashtag::firstOrCreate(['name' => $hashtag]);
+                $post->hashtags()->attach($hashtagModel->id);
+            }
+        }
+
+        // Отправляем уведомление каждому подписчику
+        $this->notifyFollowers($post);
+
         return redirect('/post-details/' . $post->id);
+    }
+
+    public function notifyFollowers(Post $post): void
+    {
+        $author = $post->user;
+
+        $followers = $author->subscribers()->get();
+
+        foreach ($followers as $subscriber) {
+            Mail::to($subscriber->email)->send(new PostNotification($author, $subscriber, $post));
+        }
     }
 }

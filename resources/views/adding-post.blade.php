@@ -25,7 +25,7 @@
                                 </a>
                             </li>
                             <li class="adding-post__tabs-item filters__item">
-                                <a class="adding-post__tabs-link filters__button filters__button--video" href="#">
+                                <a class="adding-post__tabs-link filters__button filters__button--video">
                                     <svg class="filters__icon" width="24" height="16">
                                         <use xlink:href="#icon-filter-video"></use>
                                     </svg>
@@ -33,7 +33,7 @@
                                 </a>
                             </li>
                             <li class="adding-post__tabs-item filters__item">
-                                <a class="adding-post__tabs-link filters__button filters__button--text" href="#">
+                                <a class="adding-post__tabs-link filters__button filters__button--text">
                                     <svg class="filters__icon" width="20" height="21">
                                         <use xlink:href="#icon-filter-text"></use>
                                     </svg>
@@ -41,7 +41,7 @@
                                 </a>
                             </li>
                             <li class="adding-post__tabs-item filters__item">
-                                <a class="adding-post__tabs-link filters__button filters__button--quote" href="#">
+                                <a class="adding-post__tabs-link filters__button filters__button--quote">
                                     <svg class="filters__icon" width="21" height="20">
                                         <use xlink:href="#icon-filter-quote"></use>
                                     </svg>
@@ -49,7 +49,7 @@
                                 </a>
                             </li>
                             <li class="adding-post__tabs-item filters__item">
-                                <a class="adding-post__tabs-link filters__button filters__button--link" href="#">
+                                <a class="adding-post__tabs-link filters__button filters__button--link">
                                     <svg class="filters__icon" width="21" height="18">
                                         <use xlink:href="#icon-filter-link"></use>
                                     </svg>
@@ -92,12 +92,13 @@
                     Сейчас вы перейдёте к просмотру поста
                 </p>
                 <div class="modal__buttons">
-                    <a class="modal__button button button--main" href="post-details">Перейти к просмотру</a>
-                    <a class="modal__button button button--gray" href="adding-post">Добавить ещё пост</a>
+                    <a class="modal__button button button--main" href="/post-details">Перейти к просмотру</a>
+                    <a class="modal__button button button--gray" href="/adding-post">Добавить ещё пост</a>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="/public/libs/dropzone.js"></script>
     <script src="/public/js/templates/dropzone-settings.js"></script>
     <script src="/public/js/main.js"></script>

@@ -53,6 +53,7 @@
         "webpack": "^5.80.0"
     },
     "dependencies": {
+        "dropzone": "^6.0.0-beta.2",
         "select2": "^4.1.0-rc.0"
     }
 }

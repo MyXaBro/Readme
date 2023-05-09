@@ -5,40 +5,49 @@
             <div class="form__text-inputs">
                 <div class="adding-post__input-wrapper form__input-wrapper">
                     {!! htmlspecialchars_decode(Form::label('title', 'Заголовок <span class="form__input-required">*</span></abel>', ['class' => "adding-post__label form__label"])) !!}
-                    <div class="form__input-section">
+                    <div class="form__input-section @if($errors->any('title')) ? form__input-section--error : @endif">
                         {!! Form::text('title', null, ['class' => "adding-post__input form__input", 'placeholder' => "Введите заголовок"]) !!}
                         <button class="form__error-button button" type="button">!<span
                                 class="visually-hidden">Информация об ошибке</span></button>
                         <div class="form__error-text">
                             <h3 class="form__error-title">Заголовок сообщения</h3>
-                            <p class="form__error-desc">Текст сообщения об ошибке, подробно
-                                объясняющий, что не так.</p>
+                            @if($errors->any('title'))
+                                @foreach ($errors->get('title') as $error)
+                                    <p class="form__error-desc">{{ $error }}</p>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="adding-post__input-wrapper form__input-wrapper">
                     {!! htmlspecialchars_decode(Form::label('video', 'Ссылка youtube <span class="form__input-required">*</span></label>', ['class' => "adding-post__label form__label"])) !!}
-                    <div class="form__input-section">
+                    <div class="form__input-section @if($errors->any('video')) ? form__input-section--error : @endif">
                         {!! Form::url('video', null, ['class' => "adding-post__input form__input", 'placeholder' => "Введите ссылку"]) !!}
                         <button class="form__error-button button" type="button">!<span
                                 class="visually-hidden">Информация об ошибке</span></button>
                         <div class="form__error-text">
                             <h3 class="form__error-title">Заголовок сообщения</h3>
-                            <p class="form__error-desc">Текст сообщения об ошибке, подробно
-                                объясняющий, что не так.</p>
+                            @if($errors->any('video'))
+                                @foreach ($errors->get('video') as $error)
+                                    <p class="form__error-desc">{{ $error }}</p>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="adding-post__input-wrapper form__input-wrapper">
                     {!! Form::label('hashtags', 'Теги', ['class' => "adding-post__label form__label"]) !!}
-                    <div class="form__input-section">
+                    <div class="form__input-section @if($errors->any('hashtags')) ? form__input-section--error : @endif">
                         {!! Form::text('hashtags', null, ['class' => "adding-post__input form__input", 'placeholder' => "Введите теги"]) !!}
                         <button class="form__error-button button" type="button">!<span
                                 class="visually-hidden">Информация об ошибке</span></button>
                         <div class="form__error-text">
                             <h3 class="form__error-title">Заголовок сообщения</h3>
-                            <p class="form__error-desc">Текст сообщения об ошибке, подробно
-                                объясняющий, что не так.</p>
+                            @if($errors->any('hashtags'))
+                                @foreach ($errors->get('hashtags') as $error)
+                                    <p class="form__error-desc">{{ $error }}</p>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,8 @@ class Hashtag extends Model
 {
     use HasFactory;
 
+    protected $table = 'hashtags';
+
     protected $fillable = [
         'name',
         'created_at',
@@ -19,7 +21,7 @@ class Hashtag extends Model
      */
     public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Post::class);
+        return $this->belongsToMany(Post::class, 'hashtags', 'hashtag_id', 'post_id');
     }
 
 }

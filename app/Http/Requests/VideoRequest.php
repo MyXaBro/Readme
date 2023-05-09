@@ -14,7 +14,7 @@ class VideoRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'min:4', 'max:70'],
-            'hashtags' => ['nullable', 'string', 'max:255'],
+            'hashtags' => ['nullable', 'string', 'regex:/^(#?\w+ ?)*$/'],
             'video' => ['required', 'url']
         ];
     }
@@ -29,7 +29,8 @@ class VideoRequest extends FormRequest
         return [
             'title.required' => 'Поле заголовок обязательно для заполнения.',
             'video.required' => 'Поле Ссылка youtube является обязательной',
-            'video.url' => 'Должна быть ссылка на видеосервис YouTube'
+            'video.url' => 'Должна быть ссылка на видео-сервис YouTube',
+            'hashtags.regex' => 'Хештег должен начинаться с символа #'
         ];
     }
 }

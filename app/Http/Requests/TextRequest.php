@@ -15,7 +15,7 @@ class TextRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:4', 'max:30'],
             'content' => ['required', 'string', 'min:10', 'max:1000'],
-            'hashtags' => ['nullable', 'string', 'max:255'],
+            'hashtags' => ['nullable', 'string', 'regex:/^(#?\w+ ?)*$/'],
         ];
     }
 
@@ -33,6 +33,7 @@ class TextRequest extends FormRequest
             'content.min' => 'Минимальная длина текста - 10 символов',
             'content.max' => 'Мaксимальная длина текста- 1000 символов',
             'content.required' => 'Поле текст поста обязательно для заполнения',
+            'hashtags.regex' => 'Хештег должен начинаться с символа #'
         ];
     }
 }

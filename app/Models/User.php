@@ -62,6 +62,15 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class, 'user_id', 'id');
     }
 
+    /**
+     * Отношение к модели subscription для отправки уведомлений
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscribed_to_id', 'user_id')->withTimestamps();
+    }
+
     public function subscribedTo(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Subscription::class, 'subscribed_to_id', 'id');
@@ -113,5 +122,14 @@ class User extends Authenticatable
         return $this->hasManyThrough(Post::class, Subscription::class, 'user_id', 'user_id', 'id', 'subscribed_to_id');
     }
 
+    /**
+     * Отношение к таблице post_user для реализования репоста
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function reposts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'post_user', 'user_id', 'post_id')
+            ->withTimestamps();
+    }
 }
 

@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
 use App\Http\Requests\TextRequest;
+use App\Mail\PostNotification;
 use App\Models\ContentType;
+use App\Models\Hashtag;
+use App\Models\Post;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class AddTextController extends Controller
 {
@@ -31,12 +35,34 @@ class AddTextController extends Controller
         $post = auth()->user()->posts()->create([
             'title' => $request->title,
             'content' => $request->input('content', ''),
-            'hashtags' => $request->hashtags,
             'content_type_id' => 3
         ]);
 
         $post->save();
 
+        //Добавление хэштегов
+        $hashtags = explode(' ', $request->hashtags);
+        foreach ($hashtags as $hashtag) {
+            if (!empty($hashtag)) {
+                $hashtagModel = Hashtag::firstOrCreate(['name' => $hashtag]);
+                $post->hashtags()->attach($hashtagModel->id);
+            }
+        }
+
+        // Отправляем уведомление каждому подписчику
+        $this->notifyFollowers($post);
+
         return redirect('/post-details/' . $post->id);
+    }
+
+    public function notifyFollowers(Post $post): void
+    {
+        $author = $post->user;
+
+        $followers = $author->subscribers()->get();
+
+        foreach ($followers as $subscriber) {
+            Mail::to($subscriber->email)->send(new PostNotification($author, $subscriber, $post));
+        }
     }
 }

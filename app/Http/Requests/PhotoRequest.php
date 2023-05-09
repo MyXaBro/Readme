@@ -15,9 +15,9 @@ class PhotoRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'min:4', 'max:30'],
-            'link' => ['nullable', 'url'],
-            'hashtags' => ['nullable', 'string', 'max:255'],
-            'userpic-file' => ['nullable', 'image', 'max:2048', 'mimes:jpeg,png,gif'],
+            'link' => ['nullable', 'required_without:image', 'url'],
+            'hashtags' => ['nullable', 'string', 'regex:/^(#?\w+ ?)*$/'],
+            'image' => ['nullable', 'required_without:link', 'image', 'max:2048', 'mimes:jpeg,png,gif'],
             'content' => ['nullable', 'text'],
         ];
     }
@@ -30,12 +30,14 @@ class PhotoRequest extends FormRequest
     public function messages(): array
     {
         return [
-               'title.required' => 'Поле заголовок обязательно для заполнения.',
-               'title.min' => 'Поле заголовок не может быть меньше 4 букв',
-               'title.max' => 'Поле заголовок превышает 30 букв',
-                'userpic-file.image' => 'Неправильный тип изображения',
-                'userpic-file.mimes' => 'Фото должно быть jpeg,gif, либо png'
-
+            'title.required' => 'Поле заголовок обязательно для заполнения.',
+            'title.min' => 'Поле заголовок не может быть меньше 4 букв',
+            'title.max' => 'Поле заголовок превышает 30 букв',
+            'image.image' => 'Неправильный тип изображения',
+            'image.mimes' => 'Фото должно быть jpeg,gif, либо png',
+            'hashtags.regex' => 'Хештег должен начинаться с символа #',
+            'image.required_without' => 'Вы должны загрузить фото или указать ссылку',
+            'link.required_without' => 'Вы должны указать ссылку или загрузить фото'
         ];
     }
 }

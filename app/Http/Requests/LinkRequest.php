@@ -15,7 +15,7 @@ class LinkRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:4', 'max:30'],
             'link' => ['required', 'url'],
-            'hashtags' => ['nullable', 'string', 'max:255'],
+            'hashtags' => ['nullable', 'string', 'regex:/^(#?\w+ ?)*$/'],
         ];
     }
 
@@ -31,7 +31,7 @@ class LinkRequest extends FormRequest
             'title.max' => 'Поле заголовок превышает 30 символов',
             'link.required' => 'Поле ссылка обязательно для заполнения',
             'link.url' => 'Ссылка должна быть в формате url',
-
+            'hashtags.regex' => 'Хештег должен начинаться с символа #'
         ];
     }
 }

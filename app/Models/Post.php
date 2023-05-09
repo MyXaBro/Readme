@@ -9,6 +9,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $table = 'posts';
+
     protected $fillable = [
         'title',
         'content',
@@ -64,5 +66,14 @@ class Post extends Model
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Возвращает кол-во лайков для поста
+     * @return mixed
+     */
+    public function getLikesCountAttribute(): mixed
+    {
+        return $this->likes->count();
     }
 }

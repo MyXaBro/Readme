@@ -18,7 +18,11 @@ class SearchController extends Controller
 
         $posts = Post::where('title', 'like', "%$query%")
             ->orWhere('content', 'like', "%$query%")
+            ->orWhereHas('hashtags', function ($_query) use ($query) {
+                $_query->where('name', 'like', "%$query%");
+            })
             ->get();
+
 
         return view('search-results', compact('posts', 'query'));
     }

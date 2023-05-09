@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
@@ -49,9 +50,9 @@ Route::get('/no-results', function () {
     return view('no-results');
 })->middleware('auth');
 
-Route::get('/popular', function () {
-    return view('popular');
-})->middleware('auth');
+Route::get('/popular', [PostController::class, 'index'])->name('popular')->middleware('auth');
+Route::get('/popular/{sort}', [PostController::class, 'sort'])->name('popular.sort')->middleware('auth');
+Route::get('/popular/{filter}', [PostController::class, 'filter'])->name('popular.filter')->middleware('auth');
 
 Route::get('/profile', [ProfileController::class, 'profile'])->middleware('auth');
 
@@ -65,7 +66,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/adding-post', function () {return view('adding-post');})->middleware('auth');
 
 Route::get('/adding-post/photo', [AddPhotoController::class, 'create'])->middleware('auth')->name('add-photo');
-Route::post('/adding-post/photo', [AddPhotoController::class, 'store'])->middleware('auth');
+Route::post('/adding-post/photo', [AddPhotoController::class, 'store'])->middleware('auth')->name('store');
 
 Route::get('/adding-post/video', [AddVideoController::class, 'create'])->middleware('auth')->name('add-video');
 Route::post('/adding-post/video', [AddVideoController::class, 'store'])->middleware('auth');
@@ -91,8 +92,6 @@ Route::get('/profile/{id}', [ProfileController::class, 'profile'])->middleware('
 Route::match(['post', 'delete'], 'subscribe/{id}', [SubscriptionController::class, 'subscribe'])->middleware('auth')->name('subscribe');
 Route::delete('/unsubscribe/{id}', [SubscriptionController::class, 'unsubscribe'])->middleware('auth')->name('unsubscribe');
 
-Route::post('/repost/{post}', [PostController::class, 'repost'])->middleware('auth')->name('post.repost');
-
 Route::post('/likes/{post_id}', [LikeController::class, 'store'])->middleware('auth')->name('likes.store');
 
 Route::get('/search-results', [SearchController::class, 'index'])->middleware('auth')->name('search.index');
@@ -101,5 +100,4 @@ Route::get('/messages', [MessageController::class, 'contacts'])->middleware('aut
 Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 
 Route::get('/feed', [FeedController::class, 'index'])->middleware('auth')->name('feed');
-
 

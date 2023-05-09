@@ -17,39 +17,40 @@
                 <h2 class="visually-hidden">Публикация</h2>
                 <div class="post-details__wrapper post-photo">
                     <div class="post-details__main-block post post--details">
-                        @if(isset($post->image))
+                        @if(isset($post->contentType) && $post->contentType->id == 1)
                             <div class="post-details__image-wrapper post-photo__image-wrapper">
                                 <img src="{{$post->image}}" alt="" width="760" height="507">
+                                <img src="{{$post->link}}" alt="" width="760" height="507">
                             </div>
                         @endif
-                            @if(isset($post->video))
+                            @if(isset($post->contentType) && $post->contentType->id == 2)
                                 <div class="post-video post-video__block">
                                     <iframe width="100%" height="280px" src="{{$post->video}}" frameborder="0"
                                             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
                             @endif
-                        @if(isset($post->content))
+                            @if(isset($post->contentType) && $post->contentType->id == 3)
                             <div class="post__main">
                                 <p>{{$post->content}}</p>
                             </div>
                         @endif
-                        @if(isset($post->quote_author))
+                            @if(isset($post->contentType) && $post->contentType->id == 4)
                             <div class="post__author post__author-link post-text__more-link">
                                 {{$post->quote_author}}
                             </div>
                         @endif
-                        @if(isset($post->link))
+                            @if(isset($post->contentType) && $post->contentType->id == 5)
                             <div class="post-text__more-link">
                                 {{$post->link}}
                             </div>
                         @endif
-                        @if(isset($post->hashtag_id))
-                            <div class="post__tags">
-                                @foreach($hashtags as $hashtag)
-                                    <li>{{ $hashtag->name }}</li>
-                                @endforeach
-                            </div>
-                        @endif
+                            @if($hashtags->count() > 0)
+                                <div class="post__tags">
+                                    @foreach($hashtags as $hashtag)
+                                        <li>{{ $hashtag->name }}</li>
+                                    @endforeach
+                                </div>
+                            @endif
                         <div class="post__indicators">
                             <div class="post__buttons">
 
@@ -75,15 +76,15 @@
                                     <span>{{ $post->comments->count() }}</span>
                                     <span class="visually-hidden">количество комментариев</span>
                                 </a>
-                                <a class="post__indicator post__indicator--repost button" href="{{ route('post.repost', $post) }}" title="Репост">
-                                    <svg class="post__indicator-icon" width="19" height="17">
-                                        <use xlink:href="#icon-repost"></use>
-                                    </svg>
-                                    @if(isset($post->reposts_count))
-                                    <span>{{ $post->reposts_count }}</span>
-                                    <span class="visually-hidden">количество репостов</span>
-                                        @endif
-                                </a>
+                                <form method="POST" action="">
+                                    <button type="submit" title="Репост" class="post__indicator post__indicator--repost button">
+                                        <svg class="post__indicator-icon" width="19" height="17">
+                                            <use xlink:href="#icon-repost"></use>
+                                        </svg>
+                                        <span></span>
+                                        <span class="visually-hidden">количество репостов</span>
+                                    </button>
+                                </form>
                             </div>
                             <span class="post__view" id="post-views">{{ $post->views }}</span>
                         </div>

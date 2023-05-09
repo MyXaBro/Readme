@@ -35,34 +35,35 @@
                       </a>
                     </header>
                     <div class="post__main">
-                      <h2><a href="#">{{ $post->title }}</a></h2>
+                      <h2><a href="{{ route('post-details', ['id' => $post->id]) }}">{{ $post->title }}</a></h2>
                       <div class="post-photo__image-wrapper">
-                        @if(isset($post->image))
-                          <div class="post-details__image-wrapper post-photo__image-wrapper">
-                            <img src="{{$post->image}}" alt="" width="760" height="507">
-                          </div>
-                        @endif
-                        @if(isset($post->video))
-                          <div class="post-video post-video__block">
-                            <iframe width="100%" height="280px" src="{{$post->video}}" frameborder="0"
-                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                          </div>
-                        @endif
-                        @if(isset($post->content))
-                          <div class="post__main">
-                            <p>{{$post->content}}</p>
-                          </div>
-                        @endif
-                        @if(isset($post->quote_author))
-                          <div class="post__author post__author-link post-text__more-link">
-                            {{$post->quote_author}}
-                          </div>
-                        @endif
-                        @if(isset($post->link))
-                          <div class="post-text__more-link">
-                            {{$post->link}}
-                          </div>
-                        @endif
+                          @if(isset($post->contentType) && $post->contentType->id == 1)
+                              <div class="post-details__image-wrapper post-photo__image-wrapper">
+                                  <img src="{{$post->image}}" alt="" width="760" height="507">
+                                  <img src="{{$post->link}}" alt="" width="760" height="507">
+                              </div>
+                          @endif
+                          @if(isset($post->contentType) && $post->contentType->id == 2)
+                              <div class="post-video post-video__block">
+                                  <iframe width="100%" height="280px" src="{{$post->video}}" frameborder="0"
+                                          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                              </div>
+                          @endif
+                          @if(isset($post->contentType) && $post->contentType->id == 3)
+                              <div class="post__main">
+                                  <p>{{$post->content}}</p>
+                              </div>
+                          @endif
+                          @if(isset($post->contentType) && $post->contentType->id == 4)
+                              <div class="post__author post__author-link post-text__more-link">
+                                  {{$post->quote_author}}
+                              </div>
+                          @endif
+                          @if(isset($post->contentType) && $post->contentType->id == 5)
+                              <div class="post-text__more-link">
+                                  {{$post->link}}
+                              </div>
+                          @endif
                         @if(isset($hashtags))
                           <div class="post__tags">
                             @foreach($hashtags as $hashtag)
