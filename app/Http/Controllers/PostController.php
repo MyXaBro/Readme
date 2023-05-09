@@ -136,4 +136,35 @@ class PostController extends Controller
         return view('popular', compact('posts', 'filter'));
     }
 
+    /**
+     * Метод реализует репост поста на страницу пользователя
+     * @param $postId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function repost($postId): \Illuminate\Http\RedirectResponse
+    {
+        $originalPost = Post::findOrFail($postId);
+
+        $newPost = new Post([
+            'title' => $originalPost->title,
+            'content' => $originalPost->content,
+            'quote_author' => $originalPost->quote_author,
+            'image' => $originalPost->image,
+            'video' => $originalPost->video,
+            'link' => $originalPost->link,
+            'created_at' => $originalPost->created_at,
+            'views' => $originalPost->views,
+            'content_type_id' => $originalPost->content_type_id,
+            'id' => $originalPost->id,
+            'user_id' => $originalPost->user_id,
+            'is_repost' => true,
+        ]);
+
+        $newPost->user_id = Auth::id();
+        $newPost->save();
+
+        return redirect()->route('profile', ['id' => Auth::user()->id]);
+    }
+
+
 }

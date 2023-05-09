@@ -76,4 +76,14 @@ class Post extends Model
     {
         return $this->likes->count();
     }
+
+    /**
+     * Отношение к модели user
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withPivot('reposts_count');
+    }
+
 }

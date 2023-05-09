@@ -146,13 +146,12 @@
                                                     </button>
                                                 </form>
 
-                                                <form method="POST" action="">
+                                                <form method="post" action="{{ route('posts.repost', ['postId' => $post->id]) }}">
+                                                    @csrf
                                                     <button type="submit" title="Репост" class="post__indicator post__indicator--repost button">
                                                         <svg class="post__indicator-icon" width="19" height="17">
                                                             <use xlink:href="#icon-repost"></use>
                                                         </svg>
-                                                        <span></span>
-                                                        <span class="visually-hidden">количество репостов</span>
                                                     </button>
                                                 </form>
 

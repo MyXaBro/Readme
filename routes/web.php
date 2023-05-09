@@ -88,7 +88,6 @@ Route::post('/comments/{postId}', [CommentController::class, 'store'])->middlewa
 
 Route::get('/profile/{id}', [ProfileController::class, 'profile'])->middleware('auth')->name('profile');
 
-
 Route::match(['post', 'delete'], 'subscribe/{id}', [SubscriptionController::class, 'subscribe'])->middleware('auth')->name('subscribe');
 Route::delete('/unsubscribe/{id}', [SubscriptionController::class, 'unsubscribe'])->middleware('auth')->name('unsubscribe');
 
@@ -97,7 +96,8 @@ Route::post('/likes/{post_id}', [LikeController::class, 'store'])->middleware('a
 Route::get('/search-results', [SearchController::class, 'index'])->middleware('auth')->name('search.index');
 
 Route::get('/messages', [MessageController::class, 'contacts'])->middleware('auth')->name('messages');
-Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+Route::post('/messages', [MessageController::class, 'store'])->middleware('auth')->name('messages.store');
 
 Route::get('/feed', [FeedController::class, 'index'])->middleware('auth')->name('feed');
 
+Route::post('/repost/{postId}', [PostController::class, 'repost'])->middleware('auth')->name('posts.repost');
