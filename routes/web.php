@@ -11,12 +11,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\MailController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,13 +28,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('index', function () {
+Route::get('/', function () {
+    return view('index');
+});
+
+Route::get('/index', function () {
     return view('index');
 });
 
 Route::get('/main', function () {
     return view('main');
-});
+})->name('main');
 
 Route::get('/login', function () {
     return view('login');
@@ -45,10 +47,6 @@ Route::get('/login', function () {
 Route::get('/login-validation', function () {
     return view('login-validation');
 })->middleware('guest');
-
-Route::get('/no-results', function () {
-    return view('no-results');
-})->middleware('auth');
 
 Route::get('/popular', [PostController::class, 'index'])->name('popular')->middleware('auth');
 Route::get('/popular/{sort}', [PostController::class, 'sort'])->name('popular.sort')->middleware('auth');
@@ -63,7 +61,7 @@ Route::get('/login', [LoginController::class, 'create'])->middleware('guest')->n
 Route::post('/login', [LoginController::class, 'store'])->middleware('guest');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/adding-post', function () {return view('adding-post');})->middleware('auth');
+Route::get('/adding-post', function () {return view('adding-post');})->name('adding-post')->middleware('auth');
 
 Route::get('/adding-post/photo', [AddPhotoController::class, 'create'])->middleware('auth')->name('add-photo');
 Route::post('/adding-post/photo', [AddPhotoController::class, 'store'])->middleware('auth')->name('store');

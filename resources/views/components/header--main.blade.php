@@ -15,7 +15,7 @@
             <span class="header__register-slogan">
               Еще нет аккаунта?
             </span>
-            <a class="header__user-button header__register-button button button--transparent" href="/public/registration">Регистрация</a>
+            <a class="header__user-button header__register-button button button--transparent" href="{{route('register')}}">Регистрация</a>
           </li>
         </ul>
       </nav>

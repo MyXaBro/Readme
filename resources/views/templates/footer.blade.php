@@ -31,13 +31,13 @@
       <div class="footer__my-info">
         <ul class="footer__my-pages">
           <li class="footer__my-page footer__my-page--feed">
-            <a class="footer__page-link" href="/public/feed">Моя лента</a>
+            <a class="footer__page-link" href="{{route('feed')}}">Моя лента</a>
           </li>
           <li class="footer__my-page footer__my-page--popular">
-            <a class="footer__page-link" href="/public/popular">Популярный контент</a>
+            <a class="footer__page-link" href="{{route('popular')}}">Популярный контент</a>
           </li>
           <li class="footer__my-page footer__my-page--messages">
-            <a class="footer__page-link" href="/public/messages">Личные сообщения</a>
+            <a class="footer__page-link" href="{{route('messages')}}">Личные сообщения</a>
           </li>
         </ul>
         <div class="footer__copyright">
